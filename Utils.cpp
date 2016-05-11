@@ -256,15 +256,21 @@ status_t ForkExecvp(const std::vector<std::string>& args, security_context_t con
         }
     }
 
+#if 0
     if (setexeccon(context)) {
         LOG(ERROR) << "Failed to setexeccon";
         abort();
     }
+#endif
+
     status_t res = android_fork_execvp(argc, argv, NULL, false, true);
+
+#if 0
     if (setexeccon(nullptr)) {
         LOG(ERROR) << "Failed to setexeccon";
         abort();
     }
+#endif
 
     free(argv);
     return res;
@@ -288,15 +294,20 @@ status_t ForkExecvp(const std::vector<std::string>& args,
     }
     output.clear();
 
+#if 0
     if (setexeccon(context)) {
         LOG(ERROR) << "Failed to setexeccon";
         abort();
     }
+#endif
+
     FILE* fp = popen(cmd.c_str(), "r");
+#if 0
     if (setexeccon(nullptr)) {
         LOG(ERROR) << "Failed to setexeccon";
         abort();
     }
+#endif
 
     if (!fp) {
         PLOG(ERROR) << "Failed to popen " << cmd;
